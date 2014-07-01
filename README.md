@@ -1,4 +1,3 @@
-a web site powerd by tornado.
+a web site powered by tornado.
 
 to be continued.
-=======
