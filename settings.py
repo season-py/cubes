@@ -1,7 +1,7 @@
 import os
 WORKSPACE = os.path.dirname(os.path.abspath(__file__))
 SETTINGS = {
-	'autoreload': True,
+    'autoreload': True,
     'login_url': 'http://localhost:8888',
     'debug': True,
     'template_path': os.path.join(WORKSPACE, 'templates'),
