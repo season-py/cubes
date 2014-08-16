@@ -1,7 +1,7 @@
 from tornado import web
 
 
-class AccessingDeny(Exception):
+class AccessDeny(Exception):
     pass
 
 
