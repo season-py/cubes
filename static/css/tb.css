@@ -1,0 +1,33 @@
+
+.headerRow {
+    width: 420px;
+}
+
+.headerRow div {
+    display: inline-block;
+    width: 60px;
+    text-align: center;
+}
+
+.itemRow div {
+    display: inline-block;
+    width: 60px;
+    text-align: center;
+}
+
+.item-name .item-name {
+    width: 60px
+}
+
+.item-name .item-price {
+    width: 60px
+}
+
+.item-decrement {
+    width: 30px;
+}
+
+
+.item-increment {
+    width: 30px;
+}
