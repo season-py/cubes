@@ -7,4 +7,3 @@ def initiate():
         if basename(handler).startswith('__'):
             continue
         imp.load_source('handlers', handler)
-        
