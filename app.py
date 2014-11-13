@@ -18,7 +18,7 @@ log.logging.basicConfig(level=log.logging.INFO)
 
 def runserver():
     log.logging.info(urlmap.handlers)
-    application = web.Application(urlmap.handlers[1], **SETTINGS)
+    application = web.Application(urlmap.handlers[0], **SETTINGS)
     http_server = httpserver.HTTPServer(application)
     http_server.listen(8887)
     ioloop.IOLoop.instance().start()

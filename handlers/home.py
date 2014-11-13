@@ -5,8 +5,8 @@ from celery_tasks import tasks
 from pony.orm import db_session
 
 
-@urlmap(appkey=[1, 2], url=r'/home')
-class Home(BaseHandler):
+@urlmap(url=r'/home')
+class HomeHandler(BaseHandler):
 
     @web.asynchronous
     @gen.coroutine

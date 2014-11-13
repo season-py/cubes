@@ -7,8 +7,8 @@ from futures import ThreadPoolExecutor
 from tornado.concurrent import run_on_executor
 
 
-@urlmap(appkey=[1, 2], url=r'/foods')
-class Foods(BaseHandler):
+@urlmap(url=r'/foods')
+class FoodsHandler(BaseHandler):
 
     executor = ThreadPoolExecutor(100)
 
