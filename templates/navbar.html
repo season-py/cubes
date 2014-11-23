@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block navbar %}
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+            <span class="sr-only">
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+        </button>
+        <a class="navbar-brand" href="#">
+            食堂网
+        </a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {{ current_user }}
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/logout">
+                            注销
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    特荐
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    新品
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    众口
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    分享
+                    <b class="caret">
+                    </b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#">
+                            留言墙
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            新浪微博
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-shopping-cart">
+                    </span>
+                    <span class="simpleCart_total">
+                    </span>
+                    <b class="caret">
+                    </b>
+                </a>
+                <ul class="dropdown-menu">
+                    <div class="simpleCart_items">
+                    </div>
+                </ul>
+            </li>
+            <li>
+                <a href='javascript:;' class="simpleCart_checkout">
+                    去结算
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% end %}
