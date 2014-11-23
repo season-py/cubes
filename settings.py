@@ -4,7 +4,7 @@ SETTINGS = {
     'cookie_secret': '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=',
     'xsrf_cookies': True,
     'autoreload': True,
-    'login_url': '/login',
+    'login_url': '/auth',
     'debug': True,
     'template_path': os.path.join(WORKSPACE, 'templates'),
     'static_path': os.path.join(WORKSPACE, 'static'),

@@ -8,8 +8,7 @@ from tornado import log
 from tornado import options
 from settings import SETTINGS
 from utils.urlmap import urlmap
-sys.path.append('/home/season/works')
-from celery_test.celery import app
+from celery_tasks.celery import app
 
 tcelery.setup_nonblocking_producer(celery_app=app)
 handlers.initiate()

@@ -52,6 +52,7 @@ class Dislike(db.Entity):
 
 class Customer(db.Entity):
     name = Required(unicode)
+    password = Optional('Passwd')
     email = Required(unicode)
     telephone = Required(int)
     sex = Required('Sex')
@@ -61,6 +62,9 @@ class Customer(db.Entity):
     orders = Set('Order')
     add_dt = Required(datetime, default=datetime.now())
 
+class Passwd(db.Entity):
+    customer = Required('Customer')
+    password = Required(unicode)
 
 class Order(db.Entity):
     customer = Required('Customer')

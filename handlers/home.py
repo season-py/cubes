@@ -8,6 +8,7 @@ from pony.orm import db_session
 @urlmap(url=r'/home')
 class HomeHandler(BaseHandler):
 
+    @web.authenticated
     @web.asynchronous
     @gen.coroutine
     def get(self):

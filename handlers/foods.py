@@ -12,6 +12,7 @@ class FoodsHandler(BaseHandler):
 
     executor = ThreadPoolExecutor(100)
 
+    @web.authenticated
     @web.asynchronous
     @gen.coroutine
     def get(self):
@@ -22,7 +23,6 @@ class FoodsHandler(BaseHandler):
     @run_on_executor
     def foods(self, *args, **kwargs):
         import time
-        time.sleep(5)
         with db_session:
             foods = select(f for f in Food).order_by(
                 desc(Food.likes), Food.dislikes)[:]

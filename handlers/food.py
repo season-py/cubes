@@ -4,7 +4,7 @@ from models.canteen import Food
 from pony.orm import db_session, select, desc
 
 
-@urlmap(appkey=[1, 2], url=r'/food/(like|dislike)')
+@urlmap(url=r'/food/(like|dislike)')
 class FoodLike(BaseHandler):
 
     def post(self, api):
@@ -19,7 +19,7 @@ class FoodLike(BaseHandler):
                 self.write(str(food.dislikes))
 
 
-@urlmap(appkey=[1, 2], url=r'/food/detail/(\d+)')
+@urlmap(url=r'/food/detail/(\d+)')
 class FoodDetail(BaseHandler):
 
     def get(self, food_id):
