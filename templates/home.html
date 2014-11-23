@@ -6,7 +6,7 @@
 			{% block food %}
 				{% for pic in food.pictures %}
 					<div class="item" style="background-color:#fff;box-shadow: 0 1px 3px rgba(0,0,0,.3);">
-						<img src="{{ pic.url }}">
+						<img class="item_img" src="{{ pic.url }}" onclick="item_layer({{ food.id }})">
 						<div>
 							<div style="padding-left:10px;padding-top:10px;">
   								<p style="font-size:14px;">{{ food.description }}</p>
@@ -49,6 +49,7 @@
 			{% end %}
 		{% end %}
 	</div>
+    <div id="ajax-modal" class="modal fade" tabindex="-1" style="display: none;"></div>
 	<script type="text/javascript">
         $(document).ready(function () {
             $("#flow").gridalicious({
@@ -60,8 +61,9 @@
                         duration: 300,
                         complete: onComplete},
             });
+
             function onComplete(data) { 
-            }
+            };
         });
 
         function getCookie(name) {
@@ -80,7 +82,7 @@
             });
         };
 
-        function dislike(food_id){   
+        function dislike(food_id) {   
             $.ajax({   
                 type:"post",     
                 url:"/food/dislike",
@@ -89,6 +91,19 @@
                     $("#food_dislike_"+ food_id).html(msg);
                 },
             });
+        };
+    </script>
+
+    <script type="text/javascript">
+        function item_layer(food_id) {
+            var $modal = $('#ajax-modal');
+            $('body').modalmanager('loading');
+            setTimeout(function() {
+                $modal.load(
+                    '/food/detail/' + food_id, 
+                    '', 
+                    function() {$modal.modal()});
+            }, 1000);
         };
     </script>
 {% end %}
