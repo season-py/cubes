@@ -1,4 +1,4 @@
-(function(jQuery, simpleCart){
+$(function(jQuery, simpleCart){
 
     simpleCart({
         checkout: {
