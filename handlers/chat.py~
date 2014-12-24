@@ -71,7 +71,7 @@ class MessageNewHandler(BaseHandler):
     def post(self):
         message = {
             "id": str(uuid.uuid4()),
-            "from": self.get_current_user(),
+            "from": self.current_user,
             "body": self.get_argument("body"),
         }
         # to_basestring is necessary for Python 3's json encoder,
