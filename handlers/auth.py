@@ -1,10 +1,8 @@
 # coding=utf-8
-from base import BaseHandler
+from handlers.base import BaseHandler
 from tornado import gen, web
 from utils.urlmap import urlmap
-from celery_tasks import tasks
-from pony.orm import *
-from models.canteen import Passwd, Customer
+from tasks import tasks
 
 
 @urlmap(url=r'/auth')

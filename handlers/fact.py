@@ -1,18 +1,14 @@
-from base import BaseHandler
+from handlers.base import BaseHandler
 from tornado import gen, web
 from utils.urlmap import urlmap
-from celery_tasks import tasks
-from pony.orm import db_session
+from tasks import tasks
 
+@urlmap(url=r'/cube/(?P<cube_name>[^\/]+)/fact')
+class HomeHandler(base.BaseHandler):
 
-@urlmap(url=r'/home')
-class HomeHandler(BaseHandler):
-
-    @web.authenticated
     @web.asynchronous
     @gen.coroutine
-    def get(self):
-        with db_session:
-            response = yield gen.Task(tasks.foods.apply_async, args=[])
-            self.context.foods = response.result
-            self.render('home.html', **self.context)
+    def get(self, cube_name):
+        response = yield gen.Task(tasks.foods.apply_async, args=[])
+        self.finish(response.result)
+
