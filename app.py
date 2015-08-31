@@ -8,7 +8,7 @@ from tornado import log
 from tornado import options
 from settings import SETTINGS
 from utils.urlmap import urlmap
-from celery_tasks.celery import app
+from tasks.celery import app
 
 tcelery.setup_nonblocking_producer(celery_app=app)
 handlers.initiate()
