@@ -1,4 +1,6 @@
-from collections import defaultdict
+# coding=utf-8
+# author=haishan09@gmail.com
+
 
 class ModelAttrError(Exception):
     pass
@@ -8,7 +10,16 @@ class ModelObj(object):
 
     @classmethod
     def from_metadata(cls, metadata):
-        return cls(**metadata)
+        if 'name' in metadata:
+            name = metadata['name']
+            if name not in cls._instances:
+                instance = cls(**metadata)
+                cls._instances[name] = instance
+            else:
+                instance = cls._instances[name]
+        else:
+            instance = cls(**metadata)
+        return instance
 
     def __init__(self, *args, **kwargs):
         for key, val in kwargs.items():
@@ -21,20 +32,28 @@ class ModelObj(object):
     def _init_lazy(self):
         self.label = self.label or self.name
         if self.dimensions:
-            self.dimensions = [self._create_dimension(dim) for dim in self.dimensions]
- 
+            self.dimensions = [self._create_dimension(d) for d in self.dimensions]
+        if self.measures:
+            self.measures = [self._create_measure(m) for m in self.measures]
+
     def _create_dimension(self, dim):
-        if isinstance(dim, str):
-            return self._instances[dim]
+        if isinstance(dim, unicode):
+            return Dimension._instances[dim]
         elif isinstance(dim, dict):
             return Dimension.from_metadata(dim)
+
+    def _create_measure(self, measure):
+        if isinstance(measure, unicode):
+            return Measure._instances[measure]
+        elif isinstance(measure, dict):
+            return Measure.from_metadata(measure)
 
     def __getattr__(self, key):
         if key.startswith('__') and key.endswith('__'):
             val = super(ModelObj).__getattr__(key)
         try:
             val = getattr(self.__dict__, key)
-        except AttributeError, e:
+        except AttributeError:
             val = None
         return val
 
@@ -42,7 +61,9 @@ class ModelObj(object):
 class Dimension(ModelObj):
 
     _instances = {}
-    _attributes = {'name', 'label', 'levels', 'hierarchies', 'master', 'description'}
+    _attributes = {'name', 'label', 'levels', 
+                   'hierarchies', 'category', 'master', 
+                   'description'}
 
 
 class Measure(ModelObj):
@@ -51,8 +72,10 @@ class Measure(ModelObj):
     _attributes = {'name', 'label', 'function'}
 
 
-class Cube(object):
+class Cube(ModelObj):
 
     _instances = {}
-    _attributes = {'name', 'label', 'store', 'fact', 'dimensions', 'measures', 'aggregates', 'mappings', 'joins'}
+    _attributes = {'name', 'label', 'store', 
+                   'fact', 'dimensions', 'measures', 
+                   'aggregates', 'mappings', 'joins'}
 
