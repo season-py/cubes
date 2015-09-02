@@ -1,62 +1,51 @@
 {
     "dimensions": [
-        {
-         "name":"item",
-         "levels": [
-                {
-                    "name":"category",
-                    "label":"Category",
-                    "attributes": ["category", "category_label"]
-                },
-                {
-                    "name":"subcategory",
-                    "label":"Sub-category",
-                    "attributes": ["subcategory", "subcategory_label"]
-                },
-                {
-                    "name":"line_item",
-                    "label":"Line Item",
-                    "attributes": ["line_item"]
-                }
-            ]
-        },
-        {"name":"year", "role": "time"}
+        {"name": "dayno", "label": "dayno"},
+        {"name": "week", "label": "week"},
+        {"name": "month", "label": "month"},
+        {"name": "year", "label": "year"},
+        {"name": "item_id", "label": "item_id"},
+        {"name": "item_group", "label": "item_group"},
+        {"name": "event_id", "label": "event_id"},
+        {"name": "event_module", "label": "event_module"}
     ],
+    "joins": [
+        {"name": "dayno", "detail": "dw_f_dim_date.dayno", "method": "match"}
+    ],
+    "mappings": {
+        "week": "dw_f_dim_date.week",
+        "month": "dw_f_dim_date.month",
+        "year": "dw_f_dim_date.year"
+    },
     "cubes": [
         {
-            "name": "irbd_balance",
-            "dimensions": ["item", "year"],
+            "name": "shop_center",
+            "store": "oppo",
+            "label": "购物中心商品需求",
+            "fact": "dw_a_evt_shop_center_item",
+            "store": "oppo_archive_in2014",
+            "dimensions": ["dayno", "week", "month", "year", "item_id", "item_group", "event_id", "event_module"],
             "measures": [
-                {"name":"amount", "label":"Amount"},
-                {"name":"double_amount", "label":"Double Amount",
-                  "expression": "amount * 2"}
+                {"name":"times", "label":"times"},
+                {"name":"users", "label":"users"}
             ],
             "aggregates": [
                     {
-                        "name": "amount_sum",
+                        "name": "times_sum",
                         "function": "sum",
-                        "measure": "amount"
+                        "measure": "times"
                     },
                     {
-                        "name": "double_amount_sum",
-                        "expression": "1 + sum(double_amount) - 1"
-                    },
-                    {
-                        "name": "record_count",
-                        "function": "count"
+                        "name": "users_sum",
+                        "function": "sum",
+                        "measure": "users"
                     }
-                ],
+            ],
             "mappings": {
-                          "item.line_item": "line_item",
-                          "item.subcategory": "subcategory",
-                          "item.subcategory_label": "subcategory_label",
-                          "item.category": "category",
-                          "item.category_label": "category_label"
-                         },
-            "info": {
-                "min_date": "2010-01-01",
-                "max_date": "2010-12-31"
-            }
+            },
+            "joins": [
+                {"name": "dayno", "master": "dayno"}
+            ]
         }
     ]
 }
