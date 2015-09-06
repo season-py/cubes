@@ -37,13 +37,13 @@ class ModelObj(object):
             self.measures = [self._create_measure(m) for m in self.measures]
 
     def _create_dimension(self, dim):
-        if isinstance(dim, unicode):
+        if isinstance(dim, str):
             return Dimension._instances[dim]
         elif isinstance(dim, dict):
             return Dimension.from_metadata(dim)
 
     def _create_measure(self, measure):
-        if isinstance(measure, unicode):
+        if isinstance(measure, str):
             return Measure._instances[measure]
         elif isinstance(measure, dict):
             return Measure.from_metadata(measure)
@@ -69,7 +69,9 @@ class Dimension(ModelObj):
 class Measure(ModelObj):
 
     _instances = {}
-    _attributes = {'name', 'label', 'function'}
+    _attributes = {'name', 'label', 'function', 
+                   'order', 'aggregates', 'expression',
+                   'window_size', 'description', 'format'}
 
 
 class Cube(ModelObj):

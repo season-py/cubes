@@ -1,5 +1,9 @@
 from collections import defaultdict
 
+
+def load_module(path):
+    __import__(path)
+        
 class ExtMeta(type):
 
     _collections = defaultdict(lambda: defaultdict(lambda: None))
@@ -18,6 +22,9 @@ class ExtManager(object, metaclass=ExtMeta):
         self._collections = ExtManager._collections
 
     def get(self, _type, _ext_type):
+        mod = self._collections[_type][_ext_type]
+        if not mod:
+            load_module('.'.join(['backends', _type, _ext_type]))
         return self._collections[_type][_ext_type]
 
 extmanager = ExtManager()

@@ -1,3 +1,5 @@
+from utils.ext import ExtMeta
 
-class Store(object):
+
+class Store(object, metaclass=ExtMeta):
     pass
