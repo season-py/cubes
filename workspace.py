@@ -56,7 +56,3 @@ class Workspace(object):
     def list_cubes(self):
         return list(self._cubes.keys())
 
-
-if __name__ == '__main__':
-    ws = Workspace()
-    print(ws.list_cubes())
