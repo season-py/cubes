@@ -1,9 +1,9 @@
-import backends
 from configparser import ConfigParser
 from collections import defaultdict
 from utils.meta import read_model_metadata
 from utils.ext import extmanager 
 from cube import Cube, Dimension
+from errors import *
 
 
 class Workspace(object):
@@ -36,23 +36,33 @@ class Workspace(object):
     def _register_store(self, store_key, conf):
         store_type = conf['type']
         store_conf = conf['url']
-        return extmanager.get(store_type, 'store')(store_key, store_conf)
+        return extmanager.get(store_type, 'store')(store_type, store_key, store_conf)
 
     def _import_model(self, model='models.json'):
         metadata = read_model_metadata(model=model)
         for d_metadata in metadata['dimensions']:
             Dimension.from_metadata(d_metadata)
         for c_metadata in metadata['cubes']:
-            cube = Cube.from_metadata(c_metadata, ctx=self)
+            cube = Cube.from_metadata(c_metadata)
             self._cubes[cube.name] = cube
 
     def browser(self, cube_name):
-        cube = self._cubes[cube_name]
-        if not cube:
-            pass
-        store_type = cube.store
-        return extmanager.get(store_type, 'browser', cube=cube)
+        cube = self.cube(cube_name)
+        store = self.store(cube.store)
+        return extmanager.get(store.store_type, 'browser')(cube=cube, store=store)
 
     def list_cubes(self):
         return list(self._cubes.keys())
+
+    def cube(self, cube_name):
+        cube = self._cubes[cube_name]
+        if not cube:
+            raise CubesError('cube "{0}" does not exist'.format(cube_name))
+        return cube
+
+    def store(self, store_name):
+        store = self._stores[store_name]
+        if not store:
+            raise StoresError('store "{0}" does not exist'.format(cube.store))
+        return store
 

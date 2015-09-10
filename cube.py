@@ -1,9 +1,19 @@
 # coding=utf-8
 # author=haishan09@gmail.com
+import copy
 
 
 class ModelAttrError(Exception):
     pass
+
+def create_modelobj(obj, cls=None):
+    if isinstance(obj, str):
+        if hasattr(cls, '_instances'):
+            return cls._instances[obj]
+        else:
+            return cls(name=obj)
+    elif isinstance(obj, dict):
+        return cls.from_metadata(dim)
 
 
 class ModelObj(object):
@@ -21,7 +31,11 @@ class ModelObj(object):
             instance = cls(**metadata)
         return instance
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
+        if 'metadata' in kwargs:
+            self.metadata = kwargs['metadata']
+        else:
+            self.metadata = kwargs
         for key, val in kwargs.items():
             if key in self._attributes:
                 setattr(self, key, val)
@@ -32,21 +46,11 @@ class ModelObj(object):
     def _init_lazy(self):
         self.label = self.label or self.name
         if self.dimensions:
-            self.dimensions = [self._create_dimension(d) for d in self.dimensions]
+            self.dimensions = map(lambda d: create_modelobj(d, cls=Dimension), self.dimensions)
         if self.measures:
-            self.measures = [self._create_measure(m) for m in self.measures]
-
-    def _create_dimension(self, dim):
-        if isinstance(dim, str):
-            return Dimension._instances[dim]
-        elif isinstance(dim, dict):
-            return Dimension.from_metadata(dim)
-
-    def _create_measure(self, measure):
-        if isinstance(measure, str):
-            return Measure._instances[measure]
-        elif isinstance(measure, dict):
-            return Measure.from_metadata(measure)
+            self.measures = map(lambda m: create_modelobj(m, cls=Measure), self.measures)
+        if self.levels:
+            self.levels = map(lambda l: create_modelobj(l, cls=Level), self.levels)
 
     def __getattr__(self, key):
         if key.startswith('__') and key.endswith('__'):
@@ -57,6 +61,12 @@ class ModelObj(object):
             val = None
         return val
 
+    def clone(self):
+        return self.from_metadata(copy.deepcopy(self.metadata))
+
+    def __eq__(self, other):
+        return self.metadata == other.metadata
+
 
 class Dimension(ModelObj):
 
@@ -64,6 +74,16 @@ class Dimension(ModelObj):
     _attributes = {'name', 'label', 'levels', 
                    'hierarchies', 'category', 'master', 
                    'description'}
+
+class Level(ModelObj):
+
+    _instances = {}
+    _attributes = {'name', 'label', 'attributes'}
+
+class Hierarchy(ModelObj):
+
+    _instances = {}
+    _attributes = {'name', 'label', 'levels'}
 
 
 class Measure(ModelObj):

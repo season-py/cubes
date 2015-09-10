@@ -5,7 +5,8 @@ class SqlStore(Store):
 
     _ext_type = 'store'
 
-    def __init__(self, name, url):
+    def __init__(self, store_type, name, url):
+        self.store_type = store_type
         self.name = name
         self.url = url
         self.engine = None

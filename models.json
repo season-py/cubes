@@ -23,7 +23,7 @@
             "store": "oppo",
             "label": "购物中心商品需求",
             "fact": "dw_a_evt_shop_center_item",
-            "store": "oppo_archive_in2014",
+            "store": "warehouse",
             "dimensions": ["dayno", "week", "month", "year", "item_id", "item_group", "event_id", "event_module"],
             "measures": [
                 {"name":"times", "label":"times"},
