@@ -8,13 +8,11 @@ class Browser(object, metaclass=ExtMeta):
 
     def aggerate(self, aggregates=None, drilldowns=None, cuts=None, 
                  order=None, page=None, page_size=None, **options):
-        pass
+        if aggregates:
+            map(self.cube., aggregates)
 
     def fact(self):
         pass
-
-
-
 
 class Cell(object):
 
