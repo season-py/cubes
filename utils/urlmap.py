@@ -1,5 +1,3 @@
-from tornado import web
-from tornado import log
 from collections import defaultdict
 
 class UrlMap(object):
